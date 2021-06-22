@@ -57,19 +57,17 @@ window.addEventListener('DOMContentLoaded', () => {
     //меню
     const toggleMenu = () => {
         const intViewportWidth = window.innerWidth;
-        console.log(intViewportWidth);
+        let isOpenMenu = false;
         if (intViewportWidth > 768) {
 
             const btnMenu = document.querySelector('.menu'),
                 menu = document.querySelector('menu'),
                 closeBtn = document.querySelector('.close-btn'),
                 menuItems = menu.querySelectorAll('ul>li');
-
+            
             const handlerMenu = () => {
                 const width = document.documentElement.clientWidth;
-                console.log(1);
-                if (menu.style.left === '0px') {
-                    console.log(1);
+                  if (!isOpenMenu) {
                     const start = Date.now();
                     const timer = setInterval(() => {
                         const timePassed = Date.now() - start;
@@ -78,8 +76,9 @@ window.addEventListener('DOMContentLoaded', () => {
                             clearInterval(timer);
                         }
                     }, 10);
+                    isOpenMenu = true;
                 } else {
-                    console.log(0);
+                    isOpenMenu = false;
                     menu.style.left = '0px';
                 }
             };
@@ -87,7 +86,9 @@ window.addEventListener('DOMContentLoaded', () => {
             btnMenu.addEventListener('click', handlerMenu);
             closeBtn.addEventListener('click', handlerMenu);
             menuItems.forEach(elem => elem.addEventListener('click', handlerMenu));
-        }
+         } else {
+            return;
+         }
 
     };
 
