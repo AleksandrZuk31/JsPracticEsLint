@@ -1,7 +1,7 @@
 window.addEventListener('DOMContentLoaded', () => {
 
     // Timer
-    const deadline = '26 june 2021';
+    const deadline = '28 june 2021';
 
     function countTimer(deadline) {
         const timerHours = document.querySelector('#timer-hours'),
@@ -285,5 +285,84 @@ window.addEventListener('DOMContentLoaded', () => {
         startSlide(1500);
     };
     slider();
-}
-);
+
+    // иконки
+
+    const changeIcons = () => {
+        const command = document.querySelector('.command'),
+            commandRow = command.querySelector('.row');
+
+        const image = commandRow.querySelectorAll('img');
+
+        for (let i = 0; i < image.length; i++) {
+            const img = image[i];
+
+            img.addEventListener('mouseenter', e => {
+                event.target.src = event.target.dataset.img;
+            });
+
+            img.addEventListener('mouseout', e => {
+                event.target.src = img.src;
+            });
+        }
+    };
+    changeIcons();
+
+    // поля ввода
+
+    const verifyCalc = () => {
+        const calcItem = document.querySelectorAll('.calc-item');
+        for (i = 1; i < calcItem.length; i++) {
+            const field = calcItem[i];
+
+            field.addEventListener('input', () => {
+                field.value = field.value.replace(/\D/g, '');
+            });
+        }
+    };
+    verifyCalc();
+
+    const verifyFooter = () => {
+        const userName = document.getElementById('form2-name'),
+            userMessage = document.getElementById('form2-message'),
+            userEmail = document.getElementById('form2-email'),
+            userPhone = document.getElementById('form2-phone');
+
+        userName.addEventListener('input', () => {
+            userName.value = userName.value.replace(/[\dA-Za-z?"+=/*()\\]/g, '');
+        });
+        userMessage.addEventListener('input', () => {
+            userMessage.value = userMessage.value.replace(/[\dA-Za-z?"+=/*()\\]/g, '');
+        });
+        userEmail.addEventListener('input', () => {
+            userEmail.value = userEmail.value.replace(/[А-яа-яЁё?"+=/*()\\]/g, '');
+        });
+        userPhone.addEventListener('input', () => {
+            userPhone.value = userPhone.value.replace(/[А-яа-яЁёA-Za-z?"+=/*\\]/g, '');
+        });
+
+        userName.onblur = function () {
+            if (userName.value.replace(/[\dA-Za-z?"+=/*()\\]/g, '')) {
+                userName.value = userName.value.replace(/^\s+|\s+$|\s+(?=\s)/g, '', match => match.toUpperCase(0));
+            }
+        };
+        userMessage.onblur = function () {
+            if (userMessage.value = userMessage.value.replace(/[\dA-Za-z?"+=/*()\\]/g, '')) {
+                userMessage.value = userMessage.value.replace(/^\s+|\s+$|\s+(?=\s)/g, '');
+            }
+        };
+        userEmail.onblur = function () {
+            if (userEmail.value = userEmail.value.replace(/[А-яа-яЁё?"+=/*()\\]/g, '')) {
+                userEmail.value = userEmail.value.replace(/^\s+|\s+$|\s+(?=\s)/g, '');
+            }
+        };
+        userPhone.onblur = function () {
+            if (userPhone.value = userPhone.value.replace(/[А-яа-яЁёA-Za-z?"+=/*\\]/g, '')) {
+                userPhone.value = userPhone.value.replace(/^\s+|\s+$|\s+(?=\s)/g, '');
+            }
+        };
+    };
+
+    verifyFooter();
+
+});
