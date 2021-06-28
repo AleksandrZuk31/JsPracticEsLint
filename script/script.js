@@ -296,13 +296,14 @@ window.addEventListener('DOMContentLoaded', () => {
 
         for (let i = 0; i < image.length; i++) {
             const img = image[i];
-
+            let item;
             img.addEventListener('mouseenter', e => {
+                this.item = img.src;
                 event.target.src = event.target.dataset.img;
             });
 
             img.addEventListener('mouseout', e => {
-                event.target.src = img.src;
+                event.target.src = this.item;
             });
         }
     };
@@ -341,28 +342,86 @@ window.addEventListener('DOMContentLoaded', () => {
             userPhone.value = userPhone.value.replace(/[А-яа-яЁёA-Za-z?"+=/*\\]/g, '');
         });
 
+        let footerValue;
+        const blur = (elem) => {
+            footerValue = elem.trim().replace(/^\-/, '').replace(/ {1,}/g, " ").replace(/\-{1,}/g, "-");
+        };
+
         userName.onblur = function () {
             if (userName.value.replace(/[\dA-Za-z?"+=/*()\\]/g, '')) {
-                userName.value = userName.value.replace(/^\s+|\s+$|\s+(?=\s)/g, '', match => match.toUpperCase(0));
+                blur(userName.value);
+                userName.value = footerValue;
+                const letter = userName.value[0].toUpperCase();
+                userName.value = (letter + userName.value.substring(1));
             }
         };
         userMessage.onblur = function () {
             if (userMessage.value = userMessage.value.replace(/[\dA-Za-z?"+=/*()\\]/g, '')) {
-                userMessage.value = userMessage.value.replace(/^\s+|\s+$|\s+(?=\s)/g, '');
+                blur(userMessage.value);
+                userMessage.value = footerValue;
             }
         };
         userEmail.onblur = function () {
             if (userEmail.value = userEmail.value.replace(/[А-яа-яЁё?"+=/*()\\]/g, '')) {
-                userEmail.value = userEmail.value.replace(/^\s+|\s+$|\s+(?=\s)/g, '');
+                blur(userEmail.value);
+                userEmail.value = footerValue;
             }
         };
         userPhone.onblur = function () {
             if (userPhone.value = userPhone.value.replace(/[А-яа-яЁёA-Za-z?"+=/*\\]/g, '')) {
-                userPhone.value = userPhone.value.replace(/^\s+|\s+$|\s+(?=\s)/g, '');
+                blur(userPhone.value);
+                userPhone.value = footerValue;
             }
         };
     };
 
     verifyFooter();
+
+    // калькулятор
+
+    const calc = (price = 100) => {
+        const calcBlock = document.querySelector('.calc-block'),
+            calcType = document.querySelector('.calc-type'),
+            calcSquare = document.querySelector('.calc-square'),
+            calcDay = document.querySelector('.calc-day'),
+            calcCount = document.querySelector('.calc-count'),
+            totalValue = document.getElementById('total');
+
+        const countSum = () => {
+            let total = 0,
+                countValue = 1,
+                dayValue = 1;
+            const typeValue = calcType.options[calcType.selectedIndex].value,
+                squareValue = +calcSquare.value;
+
+            if (calcCount.value > 1) {
+                countValue += (calcCount.value - 1) / 10;
+            }
+
+            if (calcDay.value && calcDay.value < 5) {
+                dayValue *= 2;
+            } else if (calcDay.value && calcDay.value < 10) {
+                dayValue *= 1.5;
+            }
+
+            if (typeValue && squareValue) {
+                total = price * typeValue * squareValue * countValue * dayValue;
+            }
+
+            totalValue.textContent = total;
+        };
+
+        calcBlock.addEventListener('change', (event) => {
+            const target = event.target;
+
+            if (target.matches('select') || target.matches('input')) {
+                countSum();
+            }
+
+        });
+
+    };
+
+    calc(100);
 
 });
