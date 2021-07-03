@@ -1,7 +1,7 @@
 window.addEventListener('DOMContentLoaded', () => {
 
     // Timer
-    const deadline = '28 june 2021';
+    const deadline = '04 july 2021';
 
     function countTimer(deadline) {
         const timerHours = document.querySelector('#timer-hours'),
@@ -176,8 +176,6 @@ window.addEventListener('DOMContentLoaded', () => {
                     }
                 });
             }
-
-
         });
     };
 
@@ -321,7 +319,44 @@ window.addEventListener('DOMContentLoaded', () => {
             });
         }
     };
+
     verifyCalc();
+
+    const verifyForm = () => {
+        const userName = document.getElementById('form1-name'),
+            userEmail = document.getElementById('form1-email'),
+            userPhone = document.getElementById('form1-phone');
+
+        userName.addEventListener('input', () => {
+            userName.value = userName.value.replace(/[\dA-Za-z?"+=/\-*()\\]/g, '');
+        });
+        userEmail.addEventListener('input', () => {
+            userEmail.value = userEmail.value.replace(/[А-яа-яЁё?"+=/*()\\]/g, '');
+        });
+        userPhone.addEventListener('input', () => {
+            userPhone.value = userPhone.value.replace(/[А-яа-яЁёA-Za-z?"=/\-*()\\]/g, '');
+        });
+    };
+
+    verifyForm();
+
+    const verifyPopup = () => {
+        const userName = document.getElementById('form3-name'),
+            userEmail = document.getElementById('form3-email'),
+            userPhone = document.getElementById('form3-phone');
+
+        userName.addEventListener('input', () => {
+            userName.value = userName.value.replace(/[\dA-Za-z?"+=/\-*()\\]/g, '');
+        });
+        userEmail.addEventListener('input', () => {
+            userEmail.value = userEmail.value.replace(/[А-яа-яЁё?"+=/*()\\]/g, '');
+        });
+        userPhone.addEventListener('input', () => {
+            userPhone.value = userPhone.value.replace(/[А-яа-яЁёA-Za-z?"=/\-*()\\]/g, '');
+        });
+    };
+
+    verifyPopup();
 
     const verifyFooter = () => {
         const userName = document.getElementById('form2-name'),
@@ -330,20 +365,20 @@ window.addEventListener('DOMContentLoaded', () => {
             userPhone = document.getElementById('form2-phone');
 
         userName.addEventListener('input', () => {
-            userName.value = userName.value.replace(/[\dA-Za-z?"+=/*()\\]/g, '');
+            userName.value = userName.value.replace(/[\dA-Za-z?"+=/\-*()\\]/g, '');
         });
         userMessage.addEventListener('input', () => {
-            userMessage.value = userMessage.value.replace(/[\dA-Za-z?"+=/*()\\]/g, '');
+            userMessage.value = userMessage.value.replace(/[\dA-Za-z?"+=/*\\]/g, '');
         });
         userEmail.addEventListener('input', () => {
             userEmail.value = userEmail.value.replace(/[А-яа-яЁё?"+=/*()\\]/g, '');
         });
         userPhone.addEventListener('input', () => {
-            userPhone.value = userPhone.value.replace(/[А-яа-яЁёA-Za-z?"+=/*\\]/g, '');
+            userPhone.value = userPhone.value.replace(/[А-яа-яЁёA-Za-z?"=/\-*()\\]/g, '');
         });
 
         let footerValue;
-        const blur = (elem) => {
+        const blur = elem => {
             footerValue = elem.trim().replace(/^\-/, '').replace(/ {1,}/g, " ").replace(/\-{1,}/g, "-");
         };
 
@@ -368,7 +403,7 @@ window.addEventListener('DOMContentLoaded', () => {
             }
         };
         userPhone.onblur = function () {
-            if (userPhone.value = userPhone.value.replace(/[А-яа-яЁёA-Za-z?"+=/*\\]/g, '')) {
+            if (userPhone.value = userPhone.value.replace(/[А-яа-яЁёA-Za-z?"=/*()\\]/g, '')) {
                 blur(userPhone.value);
                 userPhone.value = footerValue;
             }
@@ -405,13 +440,13 @@ window.addEventListener('DOMContentLoaded', () => {
             }
 
             if (typeValue && squareValue) {
-                total = price * typeValue * squareValue * countValue * dayValue;
+                total = Math.round(price * typeValue * squareValue * countValue * dayValue);
             }
 
             totalValue.textContent = total;
         };
 
-        calcBlock.addEventListener('change', (event) => {
+        calcBlock.addEventListener('change', event => {
             const target = event.target;
 
             if (target.matches('select') || target.matches('input')) {
@@ -423,5 +458,99 @@ window.addEventListener('DOMContentLoaded', () => {
     };
 
     calc(100);
+
+    // send-ajax-form
+
+    const sendForm = () => {
+        const errorMessage = 'Что то пошло не так...',
+            loadMessage = 'Загрузка...',
+            successMesage = 'Спасибо! Мы скоро с вами свяжемся!';
+
+        const form = document.getElementById('form1'),
+            formPopup = document.getElementById('form3'),
+            formFooter = document.getElementById('form2');
+
+        const statusMessage = document.createElement('div');
+
+        statusMessage.style.cssText = 'font-size: 2 rem;';
+        statusMessage.style.cssText = 'color: green';
+
+        const postData = (body, outputData, errorData) => {
+            const request = new XMLHttpRequest();
+            request.addEventListener('readystatechange', () => {
+                if (request.readyState !== 4) {
+                    return;
+                }
+                if (request.status === 200) {
+                    outputData();
+                } else {
+                    errorData(request.status);
+                }
+            });
+
+            request.open('POST', './server.php');
+            request.setRequestHeader('Content-Type', 'application/json');
+            request.send(JSON.stringify(body));
+
+            const purifyName = document.getElementsByName('user_name'),
+                purifyMail = document.getElementsByName('user_email'),
+                purifyPhone = document.getElementsByName('user_phone'),
+                purifyMessage = document.getElementById('form2-message');
+
+            purifyName.forEach(event => {
+                event.value = '';
+            });
+
+            purifyMail.forEach(event => {
+                event.value = '';
+            });
+
+            purifyPhone.forEach(event => {
+                event.value = '';
+            });
+
+            purifyMessage.value = '';
+        };
+
+        const formSelect = () => {
+            const formData = new FormData(form);
+            let body = {};
+
+            for (let val of formData.entries()) {
+                body[val[0]] = val[1];
+            }
+
+            postData(body, () => {
+                statusMessage.textContent = successMesage;
+            }, (error) => {
+                statusMessage.textContent = errorMessage;
+                console.log(error);
+            });
+        };
+
+        form.addEventListener('submit', (event) => {
+            event.preventDefault();
+            form.appendChild(statusMessage);
+            statusMessage.textContent = loadMessage;
+            formSelect();
+        });
+
+        formPopup.addEventListener('submit', (event) => {
+            event.preventDefault();
+            formPopup.appendChild(statusMessage);
+            statusMessage.textContent = loadMessage;
+            formSelect();
+        });
+
+        formFooter.addEventListener('submit', (event) => {
+            event.preventDefault();
+            formFooter.appendChild(statusMessage);
+            statusMessage.textContent = loadMessage;
+            formSelect();
+        });
+
+    };
+
+    sendForm();
 
 });
