@@ -1,7 +1,7 @@
 window.addEventListener('DOMContentLoaded', () => {
 
     // Timer
-    const deadline = '28 june 2021';
+    const deadline = '04 july 2021';
 
     function countTimer(deadline) {
         const timerHours = document.querySelector('#timer-hours'),
@@ -176,8 +176,6 @@ window.addEventListener('DOMContentLoaded', () => {
                     }
                 });
             }
-
-
         });
     };
 
@@ -299,11 +297,11 @@ window.addEventListener('DOMContentLoaded', () => {
             let item;
             img.addEventListener('mouseenter', e => {
                 this.item = img.src;
-                event.target.src = event.target.dataset.img;
+                e.target.src = e.target.dataset.img;
             });
 
             img.addEventListener('mouseout', e => {
-                event.target.src = this.item;
+                e.target.src = this.item;
             });
         }
     };
@@ -313,7 +311,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
     const verifyCalc = () => {
         const calcItem = document.querySelectorAll('.calc-item');
-        for (i = 1; i < calcItem.length; i++) {
+        for (let i = 1; i < calcItem.length; i++) {
             const field = calcItem[i];
 
             field.addEventListener('input', () => {
@@ -321,7 +319,44 @@ window.addEventListener('DOMContentLoaded', () => {
             });
         }
     };
+
     verifyCalc();
+
+    const verifyForm = () => {
+        const userName = document.getElementById('form1-name'),
+            userEmail = document.getElementById('form1-email'),
+            userPhone = document.getElementById('form1-phone');
+
+        userName.addEventListener('input', () => {
+            userName.value = userName.value.replace(/[\dA-Za-z?"+=/\-*()\\]/g, '');
+        });
+        userEmail.addEventListener('input', () => {
+            userEmail.value = userEmail.value.replace(/[А-яа-яЁё?"+=/*()\\]/g, '');
+        });
+        userPhone.addEventListener('input', () => {
+            userPhone.value = userPhone.value.replace(/[А-яа-яЁёA-Za-z?"=/\-*()\\]/g, '');
+        });
+    };
+
+    verifyForm();
+
+    const verifyPopup = () => {
+        const userName = document.getElementById('form3-name'),
+            userEmail = document.getElementById('form3-email'),
+            userPhone = document.getElementById('form3-phone');
+
+        userName.addEventListener('input', () => {
+            userName.value = userName.value.replace(/[\dA-Za-z?"+=/\-*()\\]/g, '');
+        });
+        userEmail.addEventListener('input', () => {
+            userEmail.value = userEmail.value.replace(/[А-яа-яЁё?"+=/*()\\]/g, '');
+        });
+        userPhone.addEventListener('input', () => {
+            userPhone.value = userPhone.value.replace(/[А-яа-яЁёA-Za-z?"=/\-*()\\]/g, '');
+        });
+    };
+
+    verifyPopup();
 
     const verifyFooter = () => {
         const userName = document.getElementById('form2-name'),
@@ -330,24 +365,24 @@ window.addEventListener('DOMContentLoaded', () => {
             userPhone = document.getElementById('form2-phone');
 
         userName.addEventListener('input', () => {
-            userName.value = userName.value.replace(/[\dA-Za-z?"+=/*()\\]/g, '');
+            userName.value = userName.value.replace(/[\dA-Za-z?"+=/\-*()\\]/g, '');
         });
         userMessage.addEventListener('input', () => {
-            userMessage.value = userMessage.value.replace(/[\dA-Za-z?"+=/*()\\]/g, '');
+            userMessage.value = userMessage.value.replace(/[\dA-Za-z?"+=/*\\]/g, '');
         });
         userEmail.addEventListener('input', () => {
             userEmail.value = userEmail.value.replace(/[А-яа-яЁё?"+=/*()\\]/g, '');
         });
         userPhone.addEventListener('input', () => {
-            userPhone.value = userPhone.value.replace(/[А-яа-яЁёA-Za-z?"+=/*\\]/g, '');
+            userPhone.value = userPhone.value.replace(/[А-яа-яЁёA-Za-z?"=/\-*()\\]/g, '');
         });
 
         let footerValue;
-        const blur = (elem) => {
+        const blur = elem => {
             footerValue = elem.trim().replace(/^\-/, '').replace(/ {1,}/g, " ").replace(/\-{1,}/g, "-");
         };
 
-        userName.onblur = function () {
+        userName.onblur = function() {
             if (userName.value.replace(/[\dA-Za-z?"+=/*()\\]/g, '')) {
                 blur(userName.value);
                 userName.value = footerValue;
@@ -355,20 +390,20 @@ window.addEventListener('DOMContentLoaded', () => {
                 userName.value = (letter + userName.value.substring(1));
             }
         };
-        userMessage.onblur = function () {
+        userMessage.onblur = function() {
             if (userMessage.value = userMessage.value.replace(/[\dA-Za-z?"+=/*()\\]/g, '')) {
                 blur(userMessage.value);
                 userMessage.value = footerValue;
             }
         };
-        userEmail.onblur = function () {
+        userEmail.onblur = function() {
             if (userEmail.value = userEmail.value.replace(/[А-яа-яЁё?"+=/*()\\]/g, '')) {
                 blur(userEmail.value);
                 userEmail.value = footerValue;
             }
         };
-        userPhone.onblur = function () {
-            if (userPhone.value = userPhone.value.replace(/[А-яа-яЁёA-Za-z?"+=/*\\]/g, '')) {
+        userPhone.onblur = function() {
+            if (userPhone.value = userPhone.value.replace(/[А-яа-яЁёA-Za-z?"=/*()\\]/g, '')) {
                 blur(userPhone.value);
                 userPhone.value = footerValue;
             }
@@ -405,13 +440,13 @@ window.addEventListener('DOMContentLoaded', () => {
             }
 
             if (typeValue && squareValue) {
-                total = price * typeValue * squareValue * countValue * dayValue;
+                total = Math.round(price * typeValue * squareValue * countValue * dayValue);
             }
 
             totalValue.textContent = total;
         };
 
-        calcBlock.addEventListener('change', (event) => {
+        calcBlock.addEventListener('change', event => {
             const target = event.target;
 
             if (target.matches('select') || target.matches('input')) {
@@ -423,5 +458,97 @@ window.addEventListener('DOMContentLoaded', () => {
     };
 
     calc(100);
+
+    // send-ajax-form
+
+    const sendForm = () => {
+        const errorMessage = 'Что то пошло не так...',
+            loadMessage = 'Загрузка...',
+            successMesage = 'Спасибо! Мы скоро с вами свяжемся!';
+
+        const form = document.getElementById('form1'),
+            formPopup = document.getElementById('form3'),
+            formFooter = document.getElementById('form2');
+
+        const statusMessage = document.createElement('div');
+
+        statusMessage.style.cssText = 'font-size: 2 rem;';
+        statusMessage.style.cssText = 'color: green';
+
+        const postData = body => new Promise((resolve, reject) => {
+            const request = new XMLHttpRequest();
+            request.addEventListener('readystatechange', () => {
+                if (request.readyState !== 4) {
+                    return;
+                }
+                if (request.status === 200) {
+                    resolve(body);
+                } else {
+                    reject(request.status);
+                }
+            });
+
+            request.open('POST', './server.php');
+            request.setRequestHeader('Content-Type', 'application/json');
+            request.send(JSON.stringify(body));
+
+            const purifyName = document.getElementsByName('user_name'),
+                purifyMail = document.getElementsByName('user_email'),
+                purifyPhone = document.getElementsByName('user_phone'),
+                purifyMessage = document.getElementById('form2-message');
+
+            purifyName.forEach(event => {
+                event.value = '';
+            });
+
+            purifyMail.forEach(event => {
+                event.value = '';
+            });
+
+            purifyPhone.forEach(event => {
+                event.value = '';
+            });
+
+            purifyMessage.value = '';
+        });
+
+        const formSelect = () => {
+            const formData = new FormData(form);
+            const body = {};
+
+            for (const val of formData.entries()) {
+                body[val[0]] = val[1];
+            }
+
+            postData(body)
+                .then(statusMessage.textContent = successMesage)
+                .catch(statusMessage.textContent = errorMessage);
+        };
+
+        form.addEventListener('submit', event => {
+            event.preventDefault();
+            form.appendChild(statusMessage);
+            statusMessage.textContent = loadMessage;
+            formSelect();
+        });
+
+        formPopup.addEventListener('submit', event => {
+            event.preventDefault();
+            formPopup.appendChild(statusMessage);
+            statusMessage.textContent = loadMessage;
+            formSelect();
+        });
+
+        formFooter.addEventListener('submit', event => {
+            event.preventDefault();
+            formFooter.appendChild(statusMessage);
+            statusMessage.textContent = loadMessage;
+            formSelect();
+        });
+
+
+    };
+
+    sendForm();
 
 });
