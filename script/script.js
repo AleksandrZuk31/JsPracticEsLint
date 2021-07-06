@@ -482,7 +482,7 @@ window.addEventListener('DOMContentLoaded', () => {
                     return;
                 }
                 if (request.status === 200) {
-                    resolve(body);
+                    resolve();
                 } else {
                     reject(request.status);
                 }
@@ -521,8 +521,13 @@ window.addEventListener('DOMContentLoaded', () => {
             }
 
             postData(body)
-                .then(statusMessage.textContent = successMesage)
-                .catch(statusMessage.textContent = errorMessage);
+                .then(() => {
+                    statusMessage.textContent = successMesage;
+                })
+                .catch(error => {
+                    statusMessage.textContent = errorMessage;
+                    console.log(error);
+                });
         };
 
         form.addEventListener('submit', event => {
