@@ -475,53 +475,41 @@ window.addEventListener('DOMContentLoaded', () => {
         statusMessage.style.cssText = 'font-size: 2 rem;';
         statusMessage.style.cssText = 'color: green';
 
-        const postData = body => new Promise((resolve, reject) => {
-            const request = new XMLHttpRequest();
-            request.addEventListener('readystatechange', () => {
-                if (request.readyState !== 4) {
-                    return;
-                }
-                if (request.status === 200) {
-                    resolve();
-                } else {
-                    reject(request.status);
-                }
-            });
-
-            request.open('POST', './server.php');
-            request.setRequestHeader('Content-Type', 'application/json');
-            request.send(JSON.stringify(body));
-
-            const purifyName = document.getElementsByName('user_name'),
-                purifyMail = document.getElementsByName('user_email'),
-                purifyPhone = document.getElementsByName('user_phone'),
-                purifyMessage = document.getElementById('form2-message');
-
-            purifyName.forEach(event => {
-                event.value = '';
-            });
-
-            purifyMail.forEach(event => {
-                event.value = '';
-            });
-
-            purifyPhone.forEach(event => {
-                event.value = '';
-            });
-
-            purifyMessage.value = '';
+        const postData = formData => fetch('./server.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            },
+            body: formData
         });
 
-        const formSelect = () => {
-            const formData = new FormData(form);
-            const body = {};
+        const purifyName = document.getElementsByName('user_name'),
+            purifyMail = document.getElementsByName('user_email'),
+            purifyPhone = document.getElementsByName('user_phone'),
+            purifyMessage = document.getElementById('form2-message');
 
-            for (const val of formData.entries()) {
-                body[val[0]] = val[1];
-            }
+        purifyName.forEach(event => {
+            event.value = '';
+        });
 
-            postData(body)
-                .then(() => {
+        purifyMail.forEach(event => {
+            event.value = '';
+        });
+
+        purifyPhone.forEach(event => {
+            event.value = '';
+        });
+
+        purifyMessage.value = '';
+
+
+        const formSelect = elem => {
+            const formData = new FormData(elem);
+            postData(formData)
+                .then(response => {
+                    if (response.status !== 200) {
+                        throw new Error('status network not 200');
+                    }
                     statusMessage.textContent = successMesage;
                 })
                 .catch(error => {
@@ -534,21 +522,21 @@ window.addEventListener('DOMContentLoaded', () => {
             event.preventDefault();
             form.appendChild(statusMessage);
             statusMessage.textContent = loadMessage;
-            formSelect();
+            formSelect(form);
         });
 
         formPopup.addEventListener('submit', event => {
             event.preventDefault();
             formPopup.appendChild(statusMessage);
             statusMessage.textContent = loadMessage;
-            formSelect();
+            formSelect(formPopup);
         });
 
         formFooter.addEventListener('submit', event => {
             event.preventDefault();
             formFooter.appendChild(statusMessage);
             statusMessage.textContent = loadMessage;
-            formSelect();
+            formSelect(formFooter);
         });
 
 
