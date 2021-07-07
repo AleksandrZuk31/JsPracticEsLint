@@ -5,7 +5,7 @@ const changeIcons = () => {
         commandRow = command.querySelector('.row');
 
     const image = commandRow.querySelectorAll('img');
-    const picture;
+    let picture;
     for (let i = 0; i < image.length; i++) {
         const img = image[i];
 

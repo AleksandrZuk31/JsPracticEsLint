@@ -1,4 +1,4 @@
-'Use strict';
+
 
 import countTimer from './modules/countTimer';
 import toggleMenu from './modules/toggleMenu';
