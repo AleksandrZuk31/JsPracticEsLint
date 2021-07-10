@@ -60,6 +60,7 @@ const toggleMenu = () => {
             console.log(3);
             checkAnimate();
         } else {
+            console.log(4);
             return;
         }
 
