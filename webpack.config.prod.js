@@ -1,23 +1,21 @@
-
 const path = require("path");
 
 module.exports = {
-  entry: "./src/index.js",
+  entry: "./index.js",
   output: {
     filename: "bundle.js",
-    path: path.resolve(__dirname, "./dist"),
+    path: path.resolve(__dirname, "dist"),
+    environment: {
+      // The environment supports arrow functions ('() => { ... }').
+      arrowFunction: false,
+    },
   },
-  mode: "development",
-  devServer: {
-    open: true,
-    port: 8080,
-    hot: true,
-    writeToDisk: true
-  },
+  context: path.resolve(__dirname, "src"),
+  mode: "production",
   module: {
     rules: [
       {
-        test: /\.js$/,
+        test: /\.js$/i,
         use: {
           loader: "babel-loader",
           options: {

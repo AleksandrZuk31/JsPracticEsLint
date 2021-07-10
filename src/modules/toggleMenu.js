@@ -1,9 +1,9 @@
 const toggleMenu = () => {
 
-    let isOpenMenu = false;
     window.addEventListener('resize', () => {
         if (window.innerWidth > 768) {
 
+            let isOpenMenu = false;
             const menu = document.querySelector('menu'),
                 header = document.querySelector('header');
 
@@ -47,7 +47,6 @@ const toggleMenu = () => {
             });
 
         } else {
-            alert('hi');
             return;
         }
     });

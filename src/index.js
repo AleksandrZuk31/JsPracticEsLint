@@ -9,6 +9,7 @@ import changeIcons from './modules/changeIcons';
 import verify from './modules/verify';
 import calc from './modules/calc';
 import sendForm from './modules/sendForm';
+import maskPhone from'./modules/maskPhone';
 
 
 // Timer
@@ -31,9 +32,12 @@ changeIcons();
 
 // поля ввода
 verify();
+
 // калькулятор
 calc(100);
 
 // send-ajax-form
 sendForm();
 
+// маска на телефон
+maskPhone();

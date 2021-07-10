@@ -39,7 +39,6 @@ const sendForm = () => {
 
     purifyMessage.value = '';
 
-
     const formSelect = elem => {
         const formData = new FormData(elem);
         postData(formData)
@@ -55,19 +54,18 @@ const sendForm = () => {
             });
     };
 
-    if (purifyName.value === /^\w{2,}$/ && purifyPhone.value === /^\+?[78]([-()]*\d){10}$/ &&
-        purifyMail.value === /^\w+@\w+\.\w{2,}$/) {
+    if (purifyName.value === /^\w{2,}$/ && purifyMail.value !== ' ' &&
+        purifyMail.value === /^\w+@\w+\.\w{2,}$/ && purifyPhone.value === /^\+?[78]([-()]*\d){10}$/) {
         form.addEventListener('submit', event => {
             event.preventDefault();
             form.appendChild(statusMessage);
             statusMessage.textContent = loadMessage;
             formSelect(form);
         });
-
     }
 
-    if (purifyName.value === /^\w{2,}$/ && purifyPhone.value === /^\+?[78]([-()]*\d){10}$/ &&
-        purifyMail.value === /^\w+@\w+\.\w{2,}$/) {
+    if (purifyName.value === /^\w{2,}$/ && purifyMail.value !== ' ' &&
+    purifyMail.value === /^\w+@\w+\.\w{2,}$/ && purifyPhone.value === /^\+?[78]([-()]*\d){10}$/) {
         formPopup.addEventListener('submit', event => {
             event.preventDefault();
             formPopup.appendChild(statusMessage);
@@ -76,8 +74,8 @@ const sendForm = () => {
         });
     }
 
-    if (purifyName.value === /^\w{2,}$/ && purifyPhone.value === /^\+?[78]([-()]*\d){10}$/ &&
-        purifyMail.value === /^\w+@\w+\.\w{2,}$/ && purifyMessage.value === /^\w{2,}$/) {
+    if (purifyName.value === /^\w{2,}$/ && purifyMail.value !== ' ' && purifyMail.value === /^\w+@\w+\.\w{2,}$/ &&
+     purifyPhone.value === /^\+?[78]([-()]*\d){10}$/ && purifyMessage.value === /^\w{2,}$/) {
         formFooter.addEventListener('submit', event => {
             event.preventDefault();
             formFooter.appendChild(statusMessage);
