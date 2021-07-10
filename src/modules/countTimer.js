@@ -1,6 +1,6 @@
 'use strict';
 
-const deadline = '09 july 2021';
+const deadline = '11 july 2021';
 
 function countTimer(deadline) {
     const timerHours = document.querySelector('#timer-hours'),
