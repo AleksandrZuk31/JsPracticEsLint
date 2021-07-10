@@ -9,7 +9,7 @@ import changeIcons from './modules/changeIcons';
 import verify from './modules/verify';
 import calc from './modules/calc';
 import sendForm from './modules/sendForm';
-import maskPhone from'./modules/maskPhone';
+import maskPhone from './modules/maskPhone';
 
 
 // Timer

@@ -25,6 +25,11 @@ const sendForm = () => {
         purifyPhone = document.getElementsByName('user_phone'),
         purifyMessage = document.getElementById('form2-message');
 
+        purifyMail.forEach(elem => {
+            elem.setAttribute('required', true);
+        });
+        
+
     purifyName.forEach(event => {
         event.value = '';
     });
@@ -54,36 +59,36 @@ const sendForm = () => {
             });
     };
 
-    if (purifyName.value === /^\w{2,}$/ && purifyMail.value !== ' ' &&
-        purifyMail.value === /^\w+@\w+\.\w{2,}$/ && purifyPhone.value === /^\+?[78]([-()]*\d){10}$/) {
-        form.addEventListener('submit', event => {
-            event.preventDefault();
-            form.appendChild(statusMessage);
-            statusMessage.textContent = loadMessage;
-            formSelect(form);
-        });
-    }
+    // if (purifyName.value === /^\w{2,}$/ && purifyMail.value !== ' ' &&
+    //     purifyMail.value === /^\w+@\w+\.\w{2,}$/ && purifyPhone.value === /^\+?[78]([-()]*\d){10}$/) {
+    form.addEventListener('submit', event => {
+        event.preventDefault();
+        form.appendChild(statusMessage);
+        statusMessage.textContent = loadMessage;
+        formSelect(form);
+    });
+    // } 
 
-    if (purifyName.value === /^\w{2,}$/ && purifyMail.value !== ' ' &&
-    purifyMail.value === /^\w+@\w+\.\w{2,}$/ && purifyPhone.value === /^\+?[78]([-()]*\d){10}$/) {
-        formPopup.addEventListener('submit', event => {
-            event.preventDefault();
-            formPopup.appendChild(statusMessage);
-            statusMessage.textContent = loadMessage;
-            formSelect(formPopup);
-        });
-    }
 
-    if (purifyName.value === /^\w{2,}$/ && purifyMail.value !== ' ' && purifyMail.value === /^\w+@\w+\.\w{2,}$/ &&
-     purifyPhone.value === /^\+?[78]([-()]*\d){10}$/ && purifyMessage.value === /^\w{2,}$/) {
-        formFooter.addEventListener('submit', event => {
-            event.preventDefault();
-            formFooter.appendChild(statusMessage);
-            statusMessage.textContent = loadMessage;
-            formSelect(formFooter);
-        });
+    // if (purifyName.value === /^\w{2,}$/ && purifyMail.value !== ' ' &&
+    // purifyMail.value === /^\w+@\w+\.\w{2,}$/ && purifyPhone.value === /^\+?[78]([-()]*\d){10}$/) {
+    formPopup.addEventListener('submit', event => {
+        event.preventDefault();
+        formPopup.appendChild(statusMessage);
+        statusMessage.textContent = loadMessage;
+        formSelect(formPopup);
+    });
+    // }
 
-    }
+    // if (purifyName.value === /^\w{2,}$/ && purifyMail.value !== ' ' && purifyMail.value === /^\w+@\w+\.\w{2,}$/ &&
+    //  purifyPhone.value === /^\+?[78]([-()]*\d){10}$/ && purifyMessage.value === /^\w{2,}$/) {
+    formFooter.addEventListener('submit', event => {
+        event.preventDefault();
+        formFooter.appendChild(statusMessage);
+        statusMessage.textContent = loadMessage;
+        formSelect(formFooter);
+    });
+    // }
 
 };
 

@@ -1,8 +1,8 @@
 const toggleMenu = () => {
 
-    window.addEventListener('resize', () => {
-        if (window.innerWidth > 768) {
-
+    
+        if(window.innerWidth > 768) {
+            window.addEventListener('resize', () => {
             let isOpenMenu = false;
             const menu = document.querySelector('menu'),
                 header = document.querySelector('header');
@@ -44,12 +44,13 @@ const toggleMenu = () => {
                     handlerMenu();
                 }
                 return;
-            });
+           });
+         });
 
         } else {
             return;
         }
-    });
+    
 };
 
 export default toggleMenu;
